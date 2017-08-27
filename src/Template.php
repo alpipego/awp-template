@@ -34,6 +34,10 @@ class Template
         return 'tmpl-' . $name;
     }
 
+    /**
+     * @uses renderJs()
+     * @uses renderPhp()
+     */
     public function render(string $context, array $data = [])
     {
         $tmpl = locate_template($this->template);
