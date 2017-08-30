@@ -1,0 +1,14 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: alpipego
+ * Date: 30.08.2017
+ * Time: 23:31
+ */
+
+namespace WPHibou\Template;
+
+interface TemplateInterface
+{
+    public function render(array $data = null);
+}
