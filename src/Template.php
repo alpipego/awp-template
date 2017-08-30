@@ -9,7 +9,7 @@ declare(strict_types = 1);
 
 namespace WPHibou\Template;
 
-class Template
+final class Template
 {
     private $template;
     private $data;
@@ -38,18 +38,14 @@ class Template
      * @uses renderJs()
      * @uses renderPhp()
      */
-    public function render(string $context, array $data = [])
+    public function render(array $data = null)
     {
         $tmpl = locate_template($this->template);
         if (! $tmpl) {
             $this->exception(sprintf('Template %s cannot be found', $this->template));
         }
 
-        if (! in_array($context, ['php', 'js'], true)) {
-            $this->exception(sprintf('%s is not a recognized language. Please supply eiter "php" or "js".', $context));
-        }
-
-        $method = 'render' . ucfirst(strtolower($context));
+        $method = 'render' . (is_null($data) ? 'Js' : 'Php');
         $this->$method($tmpl, $data);
     }
 
@@ -60,7 +56,7 @@ class Template
         }
     }
 
-    private function renderJs(string $tmpl, array $data)
+    private function renderJs(string $tmpl, null $data)
     {
         $tmplString = file_get_contents($tmpl);
         ob_start();
@@ -71,7 +67,7 @@ class Template
         } else {
             // $data array is used in template
             $data = $this->parseData($tmplString);
-            include $tmpl;
+            require $tmpl;
         }
         $tmplOutput = ob_get_clean();
 
@@ -121,6 +117,6 @@ class Template
         if (empty($data)) {
             $this->exception('Please provide the data for the template');
         }
-        include $tmpl;
+        require $tmpl;
     }
 }
