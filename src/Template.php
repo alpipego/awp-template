@@ -15,7 +15,14 @@ final class Template
     private $data;
     private $name;
 
-    public function __construct(string $template, string $name, array $data = [])
+    /**
+     * Template constructor.
+     *
+     * @param array $template Uses `locate_template` to prioritize templates @see locate_template()
+     * @param string $name Id passed to `wp.template`
+     * @param array $data optional array of unchanging data
+     */
+    public function __construct(array $template, string $name, array $data = [])
     {
         $this->template = $template;
         $this->data     = $data;
