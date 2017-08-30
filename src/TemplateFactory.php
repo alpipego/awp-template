@@ -9,7 +9,7 @@ declare(strict_types = 1);
 
 namespace WPHibou\Template;
 
-class TemplateFactory
+final class TemplateFactory
 {
     public function build(array $template, string $name, array $data = []) : Template
     {
