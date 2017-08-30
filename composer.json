@@ -1,21 +1,21 @@
 {
-    "name": "wp-hibou/template",
-    "description": "wp.template and locate_template loader",
-    "type": "library",
-    "require": {
-        "php": "^7.0"
-    },
-    "suggest": {
-         "johnpbloch/wordpress-core": ""
-    },
-    "psr-4": {
-        "WPHibou\\Template\\": "src"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "alpipego",
-            "email": "alpipego@gmail.com"
-        }
-    ]
+  "name": "wp-hibou/template",
+  "description": "wp.template and locate_template loader",
+  "type": "library",
+  "require": {
+    "php": "^7.0"
+  },
+  "suggest": {
+    "johnpbloch/wordpress-core": ""
+  },
+  "psr-4": {
+    "WPHibou\\Template\\": "src"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Alexander Goller",
+      "email": "alpipego@gmail.com"
+    }
+  ]
 }
