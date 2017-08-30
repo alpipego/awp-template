@@ -9,9 +9,9 @@ declare(strict_types = 1);
 
 namespace WPHibou\Template;
 
-final class TemplateFactory
+final class TemplateFactory implements TemplateFactoryInterface
 {
-    public function build(array $template, string $name, array $data = []) : Template
+    public function build(array $template, string $name, array $data = []) : TemplateInterface
     {
         return new Template($template, $name, $data);
     }
