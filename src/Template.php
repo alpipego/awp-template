@@ -9,7 +9,7 @@ declare(strict_types = 1);
 
 namespace WPHibou\Template;
 
-final class Template
+final class Template implements TemplateInterface
 {
     private $template;
     private $data;
