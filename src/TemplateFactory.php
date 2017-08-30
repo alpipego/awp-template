@@ -11,7 +11,7 @@ namespace WPHibou\Template;
 
 class TemplateFactory
 {
-    public function build(string $template, string $name, array $data = []) : Template
+    public function build(array $template, string $name, array $data = []) : Template
     {
         return new Template($template, $name, $data);
     }
