@@ -8,8 +8,10 @@
   "suggest": {
     "johnpbloch/wordpress-core": ""
   },
-  "psr-4": {
-    "WPHibou\\Template\\": "src"
+  "autoload": {
+    "psr-4": {
+      "WPHibou\\Template\\": "src"
+    }
   },
   "license": "MIT",
   "authors": [
