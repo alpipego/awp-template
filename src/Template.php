@@ -63,7 +63,7 @@ final class Template implements TemplateInterface
         }
     }
 
-    private function renderJs(string $tmpl, null $data)
+    private function renderJs(string $tmpl, array $data = null)
     {
         $tmplString = file_get_contents($tmpl);
         ob_start();
