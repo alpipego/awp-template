@@ -5,7 +5,7 @@
  * Date: 12.08.2017
  * Time: 08:47
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace WPHibou\Template;
 
@@ -49,7 +49,7 @@ final class Template implements TemplateInterface
     {
         $tmpl = locate_template($this->template);
         if (! $tmpl) {
-            $this->exception(sprintf('Template %s cannot be found', $this->template));
+            $this->exception(sprintf('Template %s cannot be found', implode(', ', $this->template)));
         }
 
         $method = 'render' . (is_null($data) ? 'Js' : 'Php');
@@ -121,7 +121,7 @@ final class Template implements TemplateInterface
     private function renderPhp(string $tmpl, array $data)
     {
         $data = array_merge($this->data, $data);
-        if (empty($data)) {
+        if (is_null($data)) {
             $this->exception('Please provide the data for the template');
         }
         require $tmpl;
