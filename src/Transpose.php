@@ -13,16 +13,16 @@ final class Transpose implements TransposeInterface
 {
     private $string = '';
 
-    public function transpose(string $templateString, bool $complex = false) : string
+    public function transpose(string $templateString, bool $complex = false): string
     {
         $this->string = $templateString;
-        $this->parseConditions()->parseForeach()->parseVariables();
+        $this->housekeeping()->parseConditions()->parseForeach()->parseVariables();
 
         return $this->string;
         // TODO: Implement transpose() method.
     }
 
-    private function parseVariables() : self
+    private function parseVariables(): self
     {
         $this->string = preg_replace_callback(
             '/
@@ -65,7 +65,7 @@ final class Transpose implements TransposeInterface
         return $this;
     }
 
-    private function parseForeach() : self
+    private function parseForeach(): self
     {
         $this->string = preg_replace_callback(
             '/
@@ -75,7 +75,7 @@ final class Transpose implements TransposeInterface
                         \$(?<value>[^\h)]+?)\h*\)\h*
                         (?:{|:)\h*\?>
                     /ixs',
-            function (array $matches) : string {
+            function (array $matches): string {
                 $key = ! empty($matches['key']) ? $matches['key'] : 'index';
 
                 return "<# _.each({$matches['array']}, function({$matches['value']}, {$key}, {$matches['array']}) { #>";
@@ -88,7 +88,7 @@ final class Transpose implements TransposeInterface
         return $this;
     }
 
-    private function parseConditions() : self
+    private function parseConditions(): self
     {
         $this->string = preg_replace(
             '/<\?php\h+if\h*\(\h*([^\h]+?)h*\)\h*(?:{|:)\h*\?>/is',
@@ -101,6 +101,13 @@ final class Transpose implements TransposeInterface
             '<# } #>',
             $this->string
         );
+
+        return $this;
+    }
+
+    private function housekeeping(): self
+    {
+        $this->string = preg_replace('/<\?php\v.+?\?>/s', '', $this->string);
 
         return $this;
     }
