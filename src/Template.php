@@ -14,6 +14,7 @@ final class Template implements TemplateInterface
     private $template;
     private $data;
     private $name;
+    private $transpose;
 
     /**
      * Template constructor.
@@ -21,12 +22,16 @@ final class Template implements TemplateInterface
      * @param array $template Uses `locate_template` to prioritize templates @see locate_template()
      * @param string $name Id passed to `wp.template`
      * @param array $data optional array of unchanging data
+     * @param TransposeInterface|null $transpose
+     *
+     * @internal param string $varName the name of the replaced variable
      */
-    public function __construct(array $template, string $name, array $data = [])
+    public function __construct(array $template, string $name, array $data = [], TransposeInterface $transpose = null)
     {
-        $this->template = $template;
-        $this->data     = $data;
-        $this->name     = $this->resolveName($name);
+        $this->template  = $template;
+        $this->data      = $data;
+        $this->name      = $this->resolveName($name);
+        $this->transpose = $transpose ?? new Transpose();
     }
 
     private function resolveName(string $name) : string
@@ -67,13 +72,13 @@ final class Template implements TemplateInterface
     {
         $tmplString = file_get_contents($tmpl);
         ob_start();
-        // if there is a condition eval php code
-        if (preg_match('/<\?php\h+if/', $tmplString)) {
-            $php = $this->eval($tmplString);
+        // if there is a condition or loop eval php code
+        if (preg_match('/<\?php\h+(?:if|foreach)/', $tmplString)) {
+            $php = $this->transpose->transpose($tmplString, true);
             eval('?>' . $php);
         } else {
             // $data array is used in template
-            $data = $this->parseData($tmplString);
+            $data = $this->transpose->transpose($tmplString);
             require $tmpl;
         }
         $tmplOutput = ob_get_clean();
