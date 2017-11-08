@@ -34,7 +34,7 @@ final class Template implements TemplateInterface
         $this->transpose = $transpose ?? new Transpose();
     }
 
-    private function resolveName(string $name) : string
+    private function resolveName(string $name): string
     {
         if (strpos($name, 'tmpl-') === 0) {
             return $name;
@@ -72,55 +72,14 @@ final class Template implements TemplateInterface
     {
         $tmplString = file_get_contents($tmpl);
         ob_start();
-        // if there is a condition or loop eval php code
-        if (preg_match('/<\?php\h+(?:if|foreach)/', $tmplString)) {
-            $php = $this->transpose->transpose($tmplString, true);
-            eval('?>' . $php);
-        } else {
-            // $data array is used in template
-            $data = $this->transpose->transpose($tmplString);
-            require $tmpl;
-        }
-        $tmplOutput = ob_get_clean();
-
         wp_enqueue_script('wp-util');
-        add_action('wp_footer', function () use ($tmplOutput) {
+        add_action('wp_footer', function () use ($tmplString) {
             ?>
             <script type="text/html" id="<?= $this->name; ?>">
-                <?= $tmplOutput; ?>
+                <?= $this->transpose->transpose($tmplString); ?>
             </script>
             <?php
         });
-    }
-
-    private function eval($tmplString) : string
-    {
-        // remove multiline php tags
-        $tmplString = preg_replace('/<\?php\v.+?\?>/s', '', $tmplString);
-        // replace php $data[] calls with data.
-        $tmplString = preg_replace('/\$data\[\h*[\'"]([^\'"]+)[\'"]\h*\]/', 'data.$1', $tmplString);
-        // replace <?php echo and <?= with {{ and close them respectively
-        $tmplString = preg_replace('/<\?(?:=|php\h+echo)\h+(data[^;]+);\h*\?>/', '{{$1}}', $tmplString);
-        // replace php if with template ifs
-        $tmplString = preg_replace(
-            '/<\?php\h+if\h*\(\h*(.+?)h*\)\h*(?:{|:)\h*\?>(.+?)<\?php\h*(?:}|endif;)\h*\?>/s',
-            '<# if ($1) { #>$2<# } #>',
-            $tmplString
-        );
-
-        return trim($tmplString);
-    }
-
-    private function parseData($tmplString) : array
-    {
-        preg_match_all('/<\?(?:=|php)\h+\$data\[[\'"]([^\'"]+)[\'"]\]\h*;\h*\?>/', $tmplString, $strings);
-        $indexes = $strings[1] ?? [];
-        $data    = array_combine($indexes, $indexes);
-        array_walk($data, function (&$value) {
-            $value = '{{data.' . $value . '}}';
-        });
-
-        return $data;
     }
 
     private function renderPhp(string $tmpl, array $data)
