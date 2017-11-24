@@ -97,6 +97,12 @@ final class Transpose implements TransposeInterface
         );
 
         $this->string = preg_replace(
+            '/<\?php\h+(?:}\h*)?else\h*(?:{|:)\h+\?>/is',
+            '<# } else { #>',
+            $this->string
+        );
+
+        $this->string = preg_replace(
             '/<\?php\h+(?:endif;|})\h*\?>/is',
             '<# } #>',
             $this->string

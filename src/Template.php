@@ -52,13 +52,20 @@ final class Template implements TemplateInterface
      */
     public function render(array $data = null)
     {
+        $tmpl = $this->locateTemplate();
+
+        $method = 'render' . (is_null($data) ? 'Js' : 'Php');
+        $this->$method($tmpl, $data);
+    }
+
+    private function locateTemplate(): string
+    {
         $tmpl = locate_template($this->template);
         if (! $tmpl) {
             $this->exception(sprintf('Template %s cannot be found', implode(', ', $this->template)));
         }
 
-        $method = 'render' . (is_null($data) ? 'Js' : 'Php');
-        $this->$method($tmpl, $data);
+        return $tmpl;
     }
 
     private function exception(string $msg)
@@ -66,6 +73,18 @@ final class Template implements TemplateInterface
         if (defined('WP_DEBUG') && WP_DEBUG) {
             throw new \Exception($msg);
         }
+    }
+
+    public function return(array $data = []): string
+    {
+        $data     = array_merge($this->data, $data);
+        $template = file_get_contents($this->locateTemplate());
+
+        ob_start();
+        require $this->locateTemplate();
+//        require $template;
+
+        return ob_get_clean();
     }
 
     private function renderJs(string $tmpl, array $data = null)
