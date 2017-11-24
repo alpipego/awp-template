@@ -77,12 +77,11 @@ final class Template implements TemplateInterface
 
     public function return(array $data = []): string
     {
-        $data     = array_merge($this->data, $data);
-        $template = file_get_contents($this->locateTemplate());
+        // $data array is passed to template
+        $data = array_merge($this->data, $data);
 
         ob_start();
         require $this->locateTemplate();
-//        require $template;
 
         return ob_get_clean();
     }
