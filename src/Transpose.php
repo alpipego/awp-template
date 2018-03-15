@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace WPHibou\Template;
+namespace Alpipego\Template;
 
 final class Transpose implements TransposeInterface
 {
@@ -19,7 +19,6 @@ final class Transpose implements TransposeInterface
         $this->housekeeping()->parseConditions()->parseForeach()->parseVariables();
 
         return $this->string;
-        // TODO: Implement transpose() method.
     }
 
     private function parseVariables(): self
