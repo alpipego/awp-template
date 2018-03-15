@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace WPHibou\Template;
+namespace Alpipego\AWP\Template;
 
 interface TransposeInterface
 {
