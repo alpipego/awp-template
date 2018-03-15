@@ -1,16 +1,16 @@
 {
-  "name": "wp-hibou/template",
+  "name": "alpipego/template",
   "description": "wp.template and locate_template loader",
   "type": "library",
   "require": {
-    "php": "^7.0"
+    "php": "^7.1"
   },
   "suggest": {
     "johnpbloch/wordpress-core": ""
   },
   "autoload": {
     "psr-4": {
-      "WPHibou\\Template\\": "src"
+      "Alpipego\\Template\\": "src"
     }
   },
   "license": "MIT",

@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace WPHibou\Template;
+namespace Alpipego\Template;
 
 final class Template implements TemplateInterface
 {
