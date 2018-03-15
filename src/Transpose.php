@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace Alpipego\Template;
+namespace Alpipego\AWP\Template;
 
 final class Transpose implements TransposeInterface
 {

@@ -1,5 +1,5 @@
 {
-  "name": "alpipego/template",
+  "name": "alpipego/awp-template",
   "description": "wp.template and locate_template loader",
   "type": "library",
   "require": {
@@ -10,7 +10,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Alpipego\\Template\\": "src"
+      "Alpipego\\AWP\\Template\\": "src"
     }
   },
   "license": "MIT",
