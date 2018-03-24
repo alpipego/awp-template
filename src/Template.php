@@ -21,7 +21,7 @@ final class Template implements TemplateInterface
      *
      * @param array $template Uses `locate_template` to prioritize templates @see locate_template()
      * @param string $name Id passed to `wp.template`
-     * @param array $data optional array of unchanging data
+     * @param array $data optional array of global data
      * @param TransposeInterface|null $transpose
      *
      * @internal param string $varName the name of the replaced variable
@@ -36,6 +36,7 @@ final class Template implements TemplateInterface
 
     private function resolveName(string $name): string
     {
+        $name = str_replace(DIRECTORY_SEPARATOR, '-', $name);
         if (strpos($name, 'tmpl-') === 0) {
             return $name;
         }
@@ -62,22 +63,22 @@ final class Template implements TemplateInterface
     {
         $tmpl = locate_template($this->template);
         if (! $tmpl) {
-            $this->exception(sprintf('Template %s cannot be found', implode(', ', $this->template)));
+            $this->exception('TemplateNotFoundException', $this->template);
         }
 
         return $tmpl;
     }
 
-    private function exception(string $msg)
+    private function exception(string $type, ... $data)
     {
         if (defined('WP_DEBUG') && WP_DEBUG) {
-            throw new \Exception($msg);
+            throw new $type(...$data);
         }
     }
 
     public function return(array $data = []): string
     {
-        // $data array is passed to template
+        // $data array is accessible in template
         $data = array_merge($this->data, $data);
 
         ob_start();
@@ -104,8 +105,13 @@ final class Template implements TemplateInterface
     {
         $data = array_merge($this->data, $data);
         if (is_null($data)) {
-            $this->exception('Please provide the data for the template');
+            $this->exception('InvalidDataException');
         }
         require $tmpl;
+    }
+
+    public function __toString()
+    {
+        return $this->return();
     }
 }
