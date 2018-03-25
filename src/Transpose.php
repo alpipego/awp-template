@@ -16,7 +16,7 @@ final class Transpose implements TransposeInterface
     public function transpose(string $templateString, bool $complex = false): string
     {
         $this->string = $templateString;
-        $this->housekeeping()->parseConditions()->parseForeach()->parseVariables();
+        $this->housekeeping()->parsePatterns()->parseConditions()->parseForeach()->parseVariables();
 
         return $this->string;
     }
@@ -104,6 +104,29 @@ final class Transpose implements TransposeInterface
         $this->string = preg_replace(
             '/<\?php\h+(?:endif;|})\h*\?>/is',
             '<# } #>',
+            $this->string
+        );
+
+        return $this;
+    }
+
+    private function parsePatterns(): self
+    {
+        $this->string = preg_replace_callback(
+            '/<\?(?:=|php\h+echo)\h+?(pattern\(\h*?(?:\.{3})?(\$[^)]+)\h*?\));\h*\?>/',
+            function (array $matches) {
+                echo '<code><pre>';
+                    var_dump($matches);
+                echo '</pre></code>';
+                echo 'Alpipego\\AWP\\Template\\'.$matches[1].';';
+                eval('Alpipego\\AWP\\Template\\'.$matches[1].';');
+/*                    eval('<?php echo pattern('.$matches[1].'); ?>');*/
+//                ob_start();
+//                $str = '';
+//                $str = ob_get_clean();
+
+                return $matches;
+            },
             $this->string
         );
 
