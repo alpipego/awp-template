@@ -112,21 +112,9 @@ final class Transpose implements TransposeInterface
 
     private function parsePatterns(): self
     {
-        $this->string = preg_replace_callback(
-            '/<\?(?:=|php\h+echo)\h+?(pattern\(\h*?(?:\.{3})?(\$[^)]+)\h*?\));\h*\?>/',
-            function (array $matches) {
-                echo '<code><pre>';
-                    var_dump($matches);
-                echo '</pre></code>';
-                echo 'Alpipego\\AWP\\Template\\'.$matches[1].';';
-                eval('Alpipego\\AWP\\Template\\'.$matches[1].';');
-/*                    eval('<?php echo pattern('.$matches[1].'); ?>');*/
-//                ob_start();
-//                $str = '';
-//                $str = ob_get_clean();
-
-                return $matches;
-            },
+        $this->string = preg_replace(
+            '/<\?(?:=|php\h+echo)\h+?pattern\(\h*?(?:\.{3})?\$[^\'"]+[\'"]([^\'"]+)[\'"]]\h*?\);\h*\?>/',
+            '<# $1() #>',
             $this->string
         );
 
