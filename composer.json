@@ -11,7 +11,10 @@
   "autoload": {
     "psr-4": {
       "Alpipego\\AWP\\Template\\": "src"
-    }
+    },
+    "files": [
+      "src/functions.php"
+    ]
   },
   "license": "MIT",
   "authors": [
