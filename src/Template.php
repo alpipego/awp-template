@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace Alpipego\AWP\Template;
 
+use Alpipego\AWP\Template\Exception\InvalidDataException;
+use Alpipego\AWP\Template\Exception\TemplateNotFoundException;
+
 final class Template implements TemplateInterface
 {
     private $template;
@@ -39,17 +42,12 @@ final class Template implements TemplateInterface
     {
         $tmpl = locate_template($template);
         if (! $tmpl) {
-            $this->exception('TemplateNotFoundException', $template);
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                throw new TemplateNotFoundException($template);
+            }
         }
 
         return $tmpl;
-    }
-
-    private function exception(string $type, ... $data)
-    {
-        if (defined('WP_DEBUG') && WP_DEBUG) {
-            throw new $type(...$data);
-        }
     }
 
     private function resolveName(string $name): string
@@ -91,11 +89,6 @@ final class Template implements TemplateInterface
         return ob_get_clean();
     }
 
-    public function getTemplate(): string
-    {
-        return $this->template;
-    }
-
     public function getName(): string
     {
         return $this->name;
@@ -103,11 +96,12 @@ final class Template implements TemplateInterface
 
     private function renderJs(string $tmpl, array $data = null)
     {
+        echo $tmpl . '<br>';
         $tmplString = file_get_contents($tmpl);
         $patterns   = $this->findPatterns($this->data);
-        echo '<code><pre>';
-        var_dump($patterns);
-        echo '</pre></code>';
+        foreach ($patterns as $pattern) {
+            $pattern->render();
+        }
         wp_enqueue_script('wp-util');
         add_action('wp_footer', function () use ($tmplString) {
             ?>
@@ -126,19 +120,25 @@ final class Template implements TemplateInterface
             }
 
             if ($value instanceof self) {
-                $this->patterns[] = $value;
+                $this->patterns[$value->getTemplate()] = $value;
             }
         });
 
-
         return $this->patterns;
+    }
+
+    public function getTemplate(): string
+    {
+        return $this->template;
     }
 
     private function renderPhp(string $tmpl, array $data)
     {
         $data = array_merge($this->data, $data);
         if (is_null($data)) {
-            $this->exception('InvalidDataException');
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                throw new InvalidDataException;
+            }
         }
         require $tmpl;
     }
