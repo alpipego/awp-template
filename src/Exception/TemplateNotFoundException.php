@@ -7,12 +7,12 @@
  */
 declare(strict_types=1);
 
-namespace Alpipego\AWP\Template;
+namespace Alpipego\AWP\Template\Exception;
 
 class TemplateNotFoundException extends \InvalidArgumentException
 {
     public function __construct(array $template)
     {
-        parent::__construct(sprintf('Templates %s cannot be found', implode(', ', $template[0])));
+        parent::__construct(sprintf('Templates %s cannot be found', implode(', ', $template)));
     }
 }

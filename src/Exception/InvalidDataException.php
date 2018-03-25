@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace Alpipego\AWP\Template;
+namespace Alpipego\AWP\Template\Exception;
 
 class InvalidDataException extends \InvalidArgumentException
 {
