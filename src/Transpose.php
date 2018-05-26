@@ -5,7 +5,7 @@
  * Date: 05.11.2017
  * Time: 20:02
  */
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Alpipego\AWP\Template;
 
@@ -13,15 +13,15 @@ final class Transpose implements TransposeInterface
 {
     private $string = '';
 
-    public function transpose(string $templateString, bool $complex = false): string
+    public function transpose(string $templateString, bool $complex = false) : string
     {
         $this->string = $templateString;
-        $this->housekeeping()->parseConditions()->parseForeach()->parseVariables();
+        $this->housekeeping()->parsePatterns()->parseConditions()->parseForeach()->parseVariables();
 
         return $this->string;
     }
 
-    private function parseVariables(): self
+    private function parseVariables() : self
     {
         $this->string = preg_replace_callback(
             '/
@@ -36,14 +36,14 @@ final class Transpose implements TransposeInterface
             function (array $matches) {
                 $opening = $closing = '';
 
-                if (! empty($matches['opening_tag']) && ! empty($matches['closing_tag'])) {
+                if ( ! empty($matches['opening_tag']) && ! empty($matches['closing_tag'])) {
                     $opening = '{{{ ';
                     $closing = ' }}}';
                 }
 
                 $index = ! empty($matches['index']) ? '.' . $matches['index'] : '';
 
-                if (! empty($matches['complex_index'])) {
+                if ( ! empty($matches['complex_index'])) {
                     $complex = preg_replace_callback(
                         '/\[\h*(?:\$(\w+)\h*\.)?\h*(?<string>.+?)\h*(?:\.\h*\$(\w+)\h*)?\]/i',
                         function (array $matches) {
@@ -64,7 +64,7 @@ final class Transpose implements TransposeInterface
         return $this;
     }
 
-    private function parseForeach(): self
+    private function parseForeach() : self
     {
         $this->string = preg_replace_callback(
             '/
@@ -74,7 +74,7 @@ final class Transpose implements TransposeInterface
                         \$(?<value>[^\h)]+?)\h*\)\h*
                         (?:{|:)\h*\?>
                     /ixs',
-            function (array $matches): string {
+            function (array $matches) : string {
                 $key = ! empty($matches['key']) ? $matches['key'] : 'index';
 
                 return "<# _.each({$matches['array']}, function({$matches['value']}, {$key}, {$matches['array']}) { #>";
@@ -87,7 +87,7 @@ final class Transpose implements TransposeInterface
         return $this;
     }
 
-    private function parseConditions(): self
+    private function parseConditions() : self
     {
         $this->string = preg_replace(
             '/<\?php\h+if\h*\(\h*([^\h]+?)h*\)\h*(?:{|:)\h*\?>/is',
@@ -110,7 +110,18 @@ final class Transpose implements TransposeInterface
         return $this;
     }
 
-    private function housekeeping(): self
+    private function parsePatterns() : self
+    {
+        $this->string = preg_replace(
+            '/<\?(?:=|php\h+echo)\h+?pattern\(\h*?(?:\.{3})?\$[^\'"]+[\'"]([^\'"]+)[\'"]]\h*?\);\h*\?>/',
+            '<# $1() #>',
+            $this->string
+        );
+
+        return $this;
+    }
+
+    private function housekeeping() : self
     {
         $this->string = preg_replace('/<\?php\v.+?\?>/s', '', $this->string);
 

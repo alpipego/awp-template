@@ -5,7 +5,7 @@
  * Date: 05.11.2017
  * Time: 20:01
  */
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Alpipego\AWP\Template;
 
