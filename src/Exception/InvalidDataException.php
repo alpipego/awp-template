@@ -5,7 +5,7 @@
  * Date: 24.03.2018
  * Time: 06:32
  */
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Alpipego\AWP\Template\Exception;
 

@@ -5,7 +5,7 @@
  * Date: 12.08.2017
  * Time: 08:47
  */
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Alpipego\AWP\Template;
 
@@ -38,10 +38,10 @@ final class Template implements TemplateInterface
         $this->transpose = $transpose ?? new Transpose();
     }
 
-    private function locateTemplate(array $template): string
+    private function locateTemplate(array $template) : string
     {
         $tmpl = locate_template($template);
-        if (! $tmpl) {
+        if ( ! $tmpl) {
             if (defined('WP_DEBUG') && WP_DEBUG) {
                 throw new TemplateNotFoundException($template);
             }
@@ -50,7 +50,7 @@ final class Template implements TemplateInterface
         return $tmpl;
     }
 
-    private function resolveName(string $name): string
+    private function resolveName(string $name) : string
     {
         $name = str_replace(DIRECTORY_SEPARATOR, '-', $name);
         if (strpos($name, 'tmpl-') === 0) {
@@ -78,7 +78,7 @@ final class Template implements TemplateInterface
         return $this->return();
     }
 
-    public function return(array $data = []): string
+    public function return(array $data = []) : string
     {
         // $data array is accessible in template
         $data = array_merge($this->data, $data);
@@ -89,14 +89,13 @@ final class Template implements TemplateInterface
         return ob_get_clean();
     }
 
-    public function getName(): string
+    public function getName() : string
     {
         return $this->name;
     }
 
     private function renderJs(string $tmpl, array $data = null)
     {
-        echo $tmpl . '<br>';
         $tmplString = file_get_contents($tmpl);
         $patterns   = $this->findPatterns($this->data);
         foreach ($patterns as $pattern) {
@@ -127,7 +126,7 @@ final class Template implements TemplateInterface
         return $this->patterns;
     }
 
-    public function getTemplate(): string
+    public function getTemplate() : string
     {
         return $this->template;
     }
