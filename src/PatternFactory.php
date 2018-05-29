@@ -22,9 +22,9 @@ class PatternFactory implements PatternFactoryInterface
             'templates'   => apply_filters('awp/template/pattern/path/templates', '_templates'),
             'pages'       => apply_filters('awp/template/pattern/path/pages', '_pages'),
             'data'        => apply_filters('awp/template/pattern/data', '_data'),
-            'styles'      => apply_filters('awp/template/pattern/path/styles', STYLESHEETPATH),
+            'styles'      => apply_filters('awp/template/pattern/path/styles', get_stylesheet_directory()),
             'styles_uri'  => apply_filters('awp/template/pattern/path/styles_uri', get_stylesheet_directory_uri()),
-            'scripts'     => apply_filters('awp/template/pattern/path/scripts', STYLESHEETPATH),
+            'scripts'     => apply_filters('awp/template/pattern/path/scripts', get_stylesheet_directory()),
             'scripts_uri' => apply_filters('awp/template/pattern/path/scripts_uri', get_stylesheet_directory_uri()),
         ], $paths);
     }
