@@ -100,7 +100,7 @@ class PatternFactory implements PatternFactoryInterface
     {
         $dataFile = locate_template([sprintf('%s/%s/%s.php', $this->paths['data'], $this->paths[$type . 's'], $name)]);
         if ( ! empty($dataFile)) {
-            $data = array_merge((array)require $dataFile, $data);
+            $data = array_merge($data, (array)require $dataFile);
         }
 
         return apply_filters('alpipego/awp/pattern/data', $data, $name);
