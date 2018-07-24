@@ -3,7 +3,8 @@
   "description": "wp.template and locate_template loader",
   "type": "library",
   "require": {
-    "php": "^7.1"
+    "php": "^7.1",
+    "alpipego/awp-assets": "^0.3.0"
   },
   "suggest": {
     "johnpbloch/wordpress-core": ""
