@@ -4,7 +4,7 @@
   "type": "library",
   "require": {
     "php": "^7.1",
-    "alpipego/awp-assets": "^0.3.0"
+    "alpipego/awp-assets": "~0.3"
   },
   "suggest": {
     "johnpbloch/wordpress-core": ""
