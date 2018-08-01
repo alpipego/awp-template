@@ -71,7 +71,7 @@ class Assets
 
     private function getAsset(string $pattern, string $name, string $type) : string
     {
-        $scripts = [
+        $assets = [
             'min'     => sprintf(
                 '%s/%s/%s.min.%s',
                 $this->paths[$type],
@@ -87,17 +87,17 @@ class Assets
                 $this->ext[$type]
             ),
         ];
-        $scripts = array_filter($scripts, 'file_exists');
+        $assets = array_filter($assets, 'file_exists');
 
-        if (empty($scripts)) {
+        if (empty($assets)) {
             return '';
         }
 
-        if (count($scripts) === 1) {
-            return array_shift($scripts);
+        if (count($assets) === 1) {
+            return array_shift($assets);
         }
 
-        return defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? $scripts['default'] : $scripts['min'];
+        return defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? $assets['default'] : $assets['min'];
     }
 
     public function addStyle(string $pattern, string $name)
