@@ -36,27 +36,32 @@ final class Transpose implements TransposeInterface
             function (array $matches) {
                 $opening = $closing = '';
 
-                if ( ! empty($matches['opening_tag']) && ! empty($matches['closing_tag'])) {
+                if (!empty($matches['opening_tag']) && !empty($matches['closing_tag'])) {
                     $opening = '{{{ ';
                     $closing = ' }}}';
                 }
 
-                $index = ! empty($matches['index']) ? '.' . $matches['index'] : '';
+                $index = !empty($matches['index']) ? '.' . $matches['index'] : null;
 
-                if ( ! empty($matches['complex_index'])) {
+                if (!empty($matches['complex_index'])) {
                     $complex = preg_replace_callback(
-                        '/\[\h*(?:\$(\w+)\h*\.)?\h*(?<string>.+?)\h*(?:\.\h*\$(\w+)\h*)?\]/i',
+                        '/\[\h*(?:\$(?<before>\w+?)\h*\.)?\h*(?<string>.+?)\h*(?:\.\h*\$(?<after>\w+?)\h*)?\]/i',
                         function (array $matches) {
-                            $before = isset($matches[1]) ? $matches[1] . ' + ' : '';
-                            $after  = isset($matches[3]) ? ' + ' . $matches[3] : '';
+                            $before = isset($matches['before']) && !empty($matches['before'])
+                                ? $matches['before'] . ' + '
+                                : '';
+                            $after  = isset($matches['after']) && !empty($matches['after'])
+                                ? ' + ' . $matches['after']
+                                : '';
 
                             return sprintf('[%s%s%s]', $before, $matches['string'], $after);
                         },
                         $matches['complex_index']
                     );
+
                 }
 
-                return sprintf('%s%s%s%s', $opening, $matches['variable'], $index ?: $complex ?? '', $closing);
+                return sprintf('%s%s%s%s%s', $opening, $matches['variable'], $index, $complex ?? '', $closing);
             },
             $this->string
         );
@@ -75,7 +80,7 @@ final class Transpose implements TransposeInterface
                         (?:{|:)\h*\?>
                     /ixs',
             function (array $matches) : string {
-                $key = ! empty($matches['key']) ? $matches['key'] : 'index';
+                $key = !empty($matches['key']) ? $matches['key'] : 'index';
 
                 return "<# _.each({$matches['array']}, function({$matches['value']}, {$key}, {$matches['array']}) { #>";
             },
