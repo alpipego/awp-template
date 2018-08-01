@@ -16,7 +16,7 @@ class PatternFactory implements PatternFactoryInterface
 
     public function __construct(array $paths = [], Assets $assets = null)
     {
-        $this->paths  = array_merge([
+        $this->paths = array_merge([
             'atoms'     => apply_filters('awp/template/pattern/path/atoms', '_atoms'),
             'molecules' => apply_filters('awp/template/pattern/path/molecules', '_molecules'),
             'organisms' => apply_filters('awp/template/pattern/path/organisms', '_organisms'),
@@ -25,8 +25,10 @@ class PatternFactory implements PatternFactoryInterface
             'data'      => apply_filters('awp/template/pattern/data', '_data'),
         ], $paths);
 
-        $assets->setPaths($this->paths);
-        $this->assets = $assets;
+        if ($assets) {
+            $assets->setPaths($this->paths);
+            $this->assets = $assets;
+        }
     }
 
     public function buildAtom(string $name, array $data = [], array $templates = []) : TemplateInterface
