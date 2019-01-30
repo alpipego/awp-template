@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "238d3063b8c2e3c169280db5b4aa9043",
+    "content-hash": "1be1dce71b81b31b7523c186ad73b265",
     "packages": [
         {
             "name": "alpipego/awp-assets",
