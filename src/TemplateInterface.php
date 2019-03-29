@@ -12,4 +12,6 @@ namespace Alpipego\AWP\Template;
 interface TemplateInterface
 {
     public function render(array $data = null);
+
+    public function return(array $data = []) : string;
 }

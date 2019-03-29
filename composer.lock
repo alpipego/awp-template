@@ -1,0 +1,59 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "1be1dce71b81b31b7523c186ad73b265",
+    "packages": [
+        {
+            "name": "alpipego/awp-assets",
+            "version": "0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alpipego/awp-assets.git",
+                "reference": "de83ac4133493e0b179f8d7eb37ebf32a32a3db6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alpipego/awp-assets/zipball/de83ac4133493e0b179f8d7eb37ebf32a32a3db6",
+                "reference": "de83ac4133493e0b179f8d7eb37ebf32a32a3db6",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "suggest": {
+                "johnpbloch/wordpress-core": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Alpipego\\AWP\\Assets\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "alpipego",
+                    "email": "alpipego@gmail.com"
+                }
+            ],
+            "description": "Improve handling of assets (js, css) in WordPress",
+            "time": "2018-03-15T06:42:39+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": "^7.1"
+    },
+    "platform-dev": []
+}
