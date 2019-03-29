@@ -26,7 +26,7 @@ final class Template implements TemplateInterface
      *
      * @internal param string $varName the name of the replaced variable
      */
-    public function __construct(array $template, string $name, array $data = [], TransposeInterface $transpose = null)
+    public function __construct(array $template, string $name = '', array $data = [], TransposeInterface $transpose = null)
     {
         $this->template  = $template;
         $this->data      = $data;
