@@ -14,4 +14,8 @@ interface TemplateInterface
     public function render(array $data = null);
 
     public function return(array $data = []) : string;
+
+    public function getTemplate() : string;
+
+    public function getName() : string;
 }

@@ -18,5 +18,5 @@ interface TemplateFactoryInterface
      *
      * @return TemplateInterface
      */
-    public function build(array $template, string $name, array $data = []) : TemplateInterface;
+    public static function build(array $template, string $name = '', array $data = []) : TemplateInterface;
 }

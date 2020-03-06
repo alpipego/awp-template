@@ -11,7 +11,7 @@ namespace Alpipego\AWP\Template;
 
 final class TemplateFactory implements TemplateFactoryInterface
 {
-    public function build(array $template, string $name = '', array $data = []) : TemplateInterface
+    public static function build(array $template, string $name = '', array $data = []) : TemplateInterface
     {
         return new Template($template, $name, $data);
     }

@@ -42,9 +42,7 @@ final class Template implements TemplateInterface
     {
         $tmpl = locate_template($template);
         if ( ! $tmpl) {
-            if (defined('WP_DEBUG') && WP_DEBUG) {
-                throw new TemplateNotFoundException($template);
-            }
+            throw new TemplateNotFoundException($template);
         }
 
         return $tmpl;
@@ -135,9 +133,7 @@ final class Template implements TemplateInterface
     {
         $data = array_merge($this->data, $data);
         if (is_null($data)) {
-            if (defined('WP_DEBUG') && WP_DEBUG) {
-                throw new InvalidDataException;
-            }
+            throw new InvalidDataException;
         }
         require $tmpl;
     }
