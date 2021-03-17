@@ -18,4 +18,6 @@ interface TemplateInterface
     public function getTemplate() : string;
 
     public function getName() : string;
+
+    public function getData() : array;
 }

@@ -76,6 +76,11 @@ final class Template implements TemplateInterface
         return $this->return();
     }
 
+    public function getData() : array
+    {
+        return $this->data;
+    }
+
     public function return(array $data = []) : string
     {
         // $data array is accessible in template
