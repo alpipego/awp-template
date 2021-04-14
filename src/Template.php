@@ -85,6 +85,7 @@ final class Template implements TemplateInterface
     {
         // $data array is accessible in template
         $data = array_merge($this->data, $data);
+        extract($data, EXTR_PREFIX_SAME|EXTR_REFS, 'data');
 
         ob_start();
         require $this->template;
