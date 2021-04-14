@@ -141,6 +141,9 @@ final class Template implements TemplateInterface
         if (is_null($data)) {
             throw new InvalidDataException;
         }
+
+        extract($data, EXTR_PREFIX_SAME|EXTR_REFS, 'data');
+
         require $tmpl;
     }
 }
