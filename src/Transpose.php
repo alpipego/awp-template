@@ -31,7 +31,7 @@ final class Transpose implements TransposeInterface
                     (?:\[\h*[\'"](?<index>[^\'"]+)[\'"]\h*\])?
                     (?<complex_index>\[.+?\])?
                 )
-                (?<closing_tag>;\h*\?>)?
+                (?<closing_tag>;?\h*\?>)?
                 /ix',
             function (array $matches) {
                 $opening = $closing = '';
@@ -41,7 +41,8 @@ final class Transpose implements TransposeInterface
                     $closing = ' }}}';
                 }
 
-                $index = !empty($matches['index']) ? '.' . $matches['index'] : null;
+                $variable = empty($matches['index']) ? 'data' : $matches['variable'];
+                $index    = '.' . ($matches['index'] ?: $matches['variable']);
 
                 if (!empty($matches['complex_index'])) {
                     $complex = preg_replace_callback(
@@ -61,7 +62,7 @@ final class Transpose implements TransposeInterface
 
                 }
 
-                return sprintf('%s%s%s%s%s', $opening, $matches['variable'], $index, $complex ?? '', $closing);
+                return sprintf('%s%s%s%s%s', $opening, $variable, $index, $complex ?? '', $closing);
             },
             $this->string
         );
