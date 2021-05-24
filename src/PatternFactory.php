@@ -38,6 +38,11 @@ class PatternFactory implements PatternFactoryInterface
 
     private function build(string $type, array $templates, string $name, array $data = []) : TemplateInterface
     {
+        array_unshift($templates, sprintf('%s/%s.php', $this->paths[$type . 's'], $name));
+        $templates = array_unique($templates);
+        $data      = $this->getData($type, $name, $data);
+        $template  = new Template($templates, $name, $data);
+
         if (apply_filters('awp/template/pattern/styles', !is_null($this->assets))) {
             $this->assets->addStyle($type, $name);
         }
@@ -45,11 +50,6 @@ class PatternFactory implements PatternFactoryInterface
         if (apply_filters('awp/template/pattern/scripts', !is_null($this->assets))) {
             $this->assets->addScript($type, $name);
         }
-
-        array_unshift($templates, sprintf('%s/%s.php', $this->paths[$type . 's'], $name));
-        $templates = array_unique($templates);
-        $data      = $this->getData($type, $name, $data);
-        $template  = new Template($templates, $name, $data);
 
         return $template;
     }
