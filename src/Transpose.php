@@ -42,7 +42,7 @@ final class Transpose implements TransposeInterface
                 }
 
                 $variable = empty($matches['index']) ? 'data' : $matches['variable'];
-                $index    = '.' . ($matches['index'] ?: $matches['variable']);
+                $index    = '.' . (empty($matches['index']) ? $matches['variable'] : $matches['index']);
 
                 if (!empty($matches['complex_index'])) {
                     $complex = preg_replace_callback(
