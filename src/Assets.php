@@ -9,6 +9,7 @@ declare(strict_types = 1);
 
 namespace Alpipego\AWP\Template;
 
+use Alpipego\AWP\Assets\Asset;
 use Alpipego\AWP\Assets\AssetsCollectionInterface;
 use Alpipego\AWP\Assets\Script;
 use Alpipego\AWP\Assets\Style;
@@ -49,24 +50,38 @@ class Assets
         add_action('wp_enqueue_scripts', [$this->collection, 'run']);
     }
 
-    public function addScript(string $pattern, string $name)
+    private function addAsset(string $pattern, string $name, string $type)
     {
-        $script = $this->getAsset($pattern, $name, 'scripts');
-        if (empty($script) || !file_exists($script)) {
+        $assets = $this->getAsset($pattern, $name, $type);
+        if (empty($assets) || ! file_exists($assets)) {
             return;
         }
 
         $handle = sanitize_key(sprintf('%s/%s', $this->paths[$pattern . 's'], $name));
-        $this->collection->add(
-            (new Script($handle))
-                ->src(str_replace($this->paths['scripts'], $this->paths['scripts_uri'], $script))
-                ->deps((array)apply_filters('awp/template/pattern/scripts/dep', [], $name, $pattern))
-                ->ver((string)filemtime($script))
-                ->in_footer(true)
-                ->prio((string)apply_filters('awp/template/pattern/scripts/prio', 'defer', $name, $pattern))
+        $action = (string)apply_filters('awp/template/pattern/styles/action', 'add', $name, $pattern);
+        if ( ! in_array($action, ['add', 'inline', 'update', 'remove'], true)) {
+            $action = 'add';
+        }
+        $this->collection->$action(
+            ($type === 'scripts' ? new Script($handle) : new Style($handle))
+                ->src(str_replace($this->paths[$type], $this->paths[$type . '_uri'], $assets))
+                ->deps((array)apply_filters('awp/template/pattern/' . $type . '/dep', [], $name, $pattern))
+                ->ver((string)filemtime($assets))
+                ->in_footer((bool)apply_filters('awp/template/pattern/' . $type . '/in_footer', $type === 'scripts', $name, $pattern))
+                ->prio((string)apply_filters('awp/template/pattern/' . $type . '/prio', 'defer', $name, $pattern))
         );
 
-        $this->registered['scripts'][sprintf('%s/%s.php', $this->paths[$pattern . 's'], $name)] = $handle;
+        $this->registered[$type][sprintf('%s/%s.php', $this->paths[$pattern . 's'], $name)] = $handle;
+    }
+
+    public function addScript(string $pattern, string $name)
+    {
+        $this->addAsset($pattern, $name, 'scripts');
+    }
+
+    public function addStyle(string $pattern, string $name)
+    {
+        $this->addAsset($pattern, $name, 'styles');
     }
 
     private function getAsset(string $pattern, string $name, string $type) : string
@@ -98,25 +113,6 @@ class Assets
         }
 
         return defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? $assets['default'] : $assets['min'];
-    }
-
-    public function addStyle(string $pattern, string $name)
-    {
-        $style = $this->getAsset($pattern, $name, 'styles');
-        if (empty($style) || !file_exists($style)) {
-            return;
-        }
-
-        $handle = sanitize_key(sprintf('%s/%s', $this->paths[$pattern . 's'], $name));
-        $this->collection->add(
-            (new Style($handle))
-                ->src(str_replace($this->paths['styles'], $this->paths['styles_uri'], $style))
-                ->deps(apply_filters('awp/template/pattern/styles/dep', [], $name, $pattern))
-                ->ver((string)filemtime($style))
-                ->prio((string)apply_filters('awp/template/pattern/styles/prio', 'defer', $name, $pattern))
-        );
-
-        $this->registered['styles'][sprintf('%s/%s.php', $this->paths[$pattern . 's'], $name)] = $handle;
     }
 
     public function setPaths($paths) : array
