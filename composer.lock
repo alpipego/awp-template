@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1be1dce71b81b31b7523c186ad73b265",
+    "content-hash": "8602af31d15ff212e90288ddb967f4ce",
     "packages": [
         {
             "name": "alpipego/awp-assets",
-            "version": "0.3.0",
+            "version": "0.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alpipego/awp-assets.git",
-                "reference": "de83ac4133493e0b179f8d7eb37ebf32a32a3db6"
+                "reference": "9271cf83bf8bcfc98585917b661f608fd22ef6ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alpipego/awp-assets/zipball/de83ac4133493e0b179f8d7eb37ebf32a32a3db6",
-                "reference": "de83ac4133493e0b179f8d7eb37ebf32a32a3db6",
+                "url": "https://api.github.com/repos/alpipego/awp-assets/zipball/9271cf83bf8bcfc98585917b661f608fd22ef6ea",
+                "reference": "9271cf83bf8bcfc98585917b661f608fd22ef6ea",
                 "shasum": ""
             },
             "require": {
@@ -43,17 +43,24 @@
                 }
             ],
             "description": "Improve handling of assets (js, css) in WordPress",
-            "time": "2018-03-15T06:42:39+00:00"
+            "support": {
+                "issues": "https://github.com/alpipego/awp-assets/issues",
+                "source": "https://github.com/alpipego/awp-assets/tree/0.6.2"
+            },
+            "time": "2021-06-01T11:07:04+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "alpipego/awp-assets": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": "^7.1"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
 }
