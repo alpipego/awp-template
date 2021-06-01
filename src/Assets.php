@@ -113,7 +113,7 @@ class Assets
                 ->src(str_replace($this->paths['styles'], $this->paths['styles_uri'], $style))
                 ->deps(apply_filters('awp/template/pattern/styles/dep', [], $name, $pattern))
                 ->ver((string)filemtime($style))
-                ->prio((string)apply_filters('awp/template/pattern/scripts/prio', 'defer', $name, $pattern))
+                ->prio((string)apply_filters('awp/template/pattern/styles/prio', 'defer', $name, $pattern))
         );
 
         $this->registered['styles'][sprintf('%s/%s.php', $this->paths[$pattern . 's'], $name)] = $handle;
