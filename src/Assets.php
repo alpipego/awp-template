@@ -9,7 +9,6 @@ declare(strict_types = 1);
 
 namespace Alpipego\AWP\Template;
 
-use Alpipego\AWP\Assets\Asset;
 use Alpipego\AWP\Assets\AssetsCollectionInterface;
 use Alpipego\AWP\Assets\Script;
 use Alpipego\AWP\Assets\Style;
@@ -58,7 +57,7 @@ class Assets
         }
 
         $handle = sanitize_key(sprintf('%s/%s', $this->paths[$pattern . 's'], $name));
-        $action = (string)apply_filters('awp/template/pattern/styles/action', 'add', $name, $pattern);
+        $action = (string)apply_filters('awp/template/pattern/' . $type . '/action', 'add', $name, $pattern);
         if ( ! in_array($action, ['add', 'inline', 'update', 'remove'], true)) {
             $action = 'add';
         }
