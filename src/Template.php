@@ -105,11 +105,16 @@ final class Template implements TemplateInterface
         foreach ($patterns as $pattern) {
             $pattern->render();
         }
-        wp_enqueue_script('wp-util');
         add_action('wp_footer', function () use ($tmplString) {
+            if (!wp_script_is('wp-util')) {
+                printf('<script>%s</script>', file_get_contents(__DIR__ . '/../assets/template.' . (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? 'min.' : '') . 'js'));
+                global $wp_scripts;
+                $wp_scripts->done[]  = 'wp-util';
+                $wp_scripts->queue[] = 'wp-util';
+            }
             ?>
-            <script type="text/html" id="<?= $this->name; ?>">
-                <?= $this->transpose->transpose($tmplString); ?>
+            <script type="text/html" id="<?= $this->name ?>">
+                <?= $this->transpose->transpose($tmplString) ?>
             </script>
             <?php
         });
