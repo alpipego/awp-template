@@ -9,7 +9,6 @@ declare(strict_types = 1);
 
 namespace Alpipego\AWP\Template;
 
-use Alpipego\AWP\Template\Exception\InvalidDataException;
 use Alpipego\AWP\Template\Exception\TemplateNotFoundException;
 
 final class Template implements TemplateInterface
@@ -143,11 +142,7 @@ final class Template implements TemplateInterface
     private function renderPhp(string $tmpl, array $data)
     {
         $data = array_merge($this->data, $data);
-        if (is_null($data)) {
-            throw new InvalidDataException;
-        }
-
-        extract($data, EXTR_PREFIX_SAME|EXTR_REFS, 'data');
+        extract($data, EXTR_PREFIX_SAME | EXTR_REFS, 'data');
 
         require $tmpl;
     }
