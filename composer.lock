@@ -4,24 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8602af31d15ff212e90288ddb967f4ce",
+    "content-hash": "be820e1722796a8fe18b0bf8e5b190eb",
     "packages": [
         {
             "name": "alpipego/awp-assets",
-            "version": "0.6.2",
+            "version": "0.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alpipego/awp-assets.git",
-                "reference": "9271cf83bf8bcfc98585917b661f608fd22ef6ea"
+                "reference": "af3951a767c2aa8110e41d4ec3b2e8be8f3c2cc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alpipego/awp-assets/zipball/9271cf83bf8bcfc98585917b661f608fd22ef6ea",
-                "reference": "9271cf83bf8bcfc98585917b661f608fd22ef6ea",
+                "url": "https://api.github.com/repos/alpipego/awp-assets/zipball/af3951a767c2aa8110e41d4ec3b2e8be8f3c2cc2",
+                "reference": "af3951a767c2aa8110e41d4ec3b2e8be8f3c2cc2",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1"
+                "php": "^7.1|^8.0"
             },
             "suggest": {
                 "johnpbloch/wordpress-core": ""
@@ -45,9 +45,9 @@
             "description": "Improve handling of assets (js, css) in WordPress",
             "support": {
                 "issues": "https://github.com/alpipego/awp-assets/issues",
-                "source": "https://github.com/alpipego/awp-assets/tree/0.6.2"
+                "source": "https://github.com/alpipego/awp-assets/tree/0.7.1"
             },
-            "time": "2021-06-01T11:07:04+00:00"
+            "time": "2022-01-11T17:50:20+00:00"
         }
     ],
     "packages-dev": [],
@@ -59,8 +59,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.1"
+        "php": "^7.1|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
