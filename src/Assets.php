@@ -9,9 +9,9 @@ declare(strict_types = 1);
 
 namespace Alpipego\AWP\Template;
 
-use Alpipego\AWP\Assets\AssetsCollectionInterface;
-use Alpipego\AWP\Assets\Script;
 use Alpipego\AWP\Assets\Style;
+use Alpipego\AWP\Assets\Script;
+use Alpipego\AWP\Assets\AssetsCollectionInterface;
 
 class Assets
 {
@@ -19,6 +19,7 @@ class Assets
     private $ext;
     private $collection;
     private $registered = ['styles' => [], 'scripts' => []];
+    private $cache = [];
 
     public function __construct(AssetsCollectionInterface $collection)
     {
@@ -51,6 +52,12 @@ class Assets
 
     private function addAsset(string $pattern, string $name, string $type)
     {
+        $cacheKey = md5(implode('', func_get_args()));
+        if (array_key_exists($cacheKey, $this->cache)) {
+            return;
+        }
+        $this->cache[$cacheKey] = true;
+
         $assets = $this->getAsset($pattern, $name, $type);
         if (empty($assets) || ! file_exists($assets)) {
             return;
