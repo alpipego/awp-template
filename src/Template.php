@@ -106,7 +106,7 @@ final class Template implements TemplateInterface
         }
         add_action('wp_footer', function () use ($tmplString) {
             if (!wp_script_is('wp-util')) {
-                printf('<script>%s</script>', file_get_contents(__DIR__ . '/../assets/template.' . (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? 'min.' : '') . 'js'));
+                printf('<script>%s</script>', file_get_contents(__DIR__ . '/../assets/template.' . (!defined('SCRIPT_DEBUG') || !SCRIPT_DEBUG ? 'min.' : '') . 'js'));
                 global $wp_scripts;
                 $wp_scripts->done[]  = 'wp-util';
                 $wp_scripts->queue[] = 'wp-util';
