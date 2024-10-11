@@ -21,6 +21,7 @@ class PatternFactory implements PatternFactoryInterface
             'molecules' => apply_filters('awp/template/pattern/path/molecules', '_molecules'),
             'organisms' => apply_filters('awp/template/pattern/path/organisms', '_organisms'),
             'templates' => apply_filters('awp/template/pattern/path/templates', '_templates'),
+            'components' => apply_filters('awp/template/pattern/path/components', '_components'),
             'pages'     => apply_filters('awp/template/pattern/path/pages', '_pages'),
             'data'      => apply_filters('awp/template/pattern/data', '_data'),
         ], $paths);
@@ -82,6 +83,11 @@ class PatternFactory implements PatternFactoryInterface
     public function buildPage(string $name, array $data = [], array $templates = []) : TemplateInterface
     {
         return $this->build('page', $templates, $name, $data);
+    }
+
+    public function buildComponent(string $name, array $data = [], array $templates = []) : TemplateInterface
+    {
+        return $this->build('component', $templates, $name, $data);
     }
 
     public function clone(string $template, array $data = []) : TemplateInterface
